@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Marks Management</h2>
+    <a class="btn btn-outline-primary" href="{{ url_for('marks_report') }}">View Marks Report</a>
+</div>
+<div class="card shadow-sm p-3 mb-4">
+    <h5>Add / Update Marks</h5>
+    <form method="post" class="row g-2">
+        <input type="hidden" name="mark_id" id="mark_id">
+        <div class="col-md-4">
+            <label class="form-label">Student</label>
+            <select name="student_id" id="student_id" class="form-select" required>
+                {% for s in students %}
+                <option value="{{ s.id }}">{{ s.name }} ({{ s.student_id }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-4"><label class="form-label">Subject</label><input type="text" name="subject" id="subject" class="form-control" required></div>
+        <div class="col-md-2"><label class="form-label">Marks</label><input type="number" step="0.01" name="marks" id="marks" class="form-control" required></div>
+        <div class="col-md-2 d-grid align-items-end"><button class="btn btn-success mt-4" type="submit">Save</button></div>
+    </form>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light"><tr><th>ID</th><th>Student</th><th>Subject</th><th>Marks</th><th>Actions</th></tr></thead>
+        <tbody>
+            {% for row in marks_list %}
+            <tr>
+                <td>{{ row.id }}</td>
+                <td>{{ row.name }} ({{ row.student_id }})</td>
+                <td>{{ row.subject }}</td>
+                <td>{{ row.marks }}</td>
+                <td class="d-flex gap-1">
+                    <button type="button" class="btn btn-sm btn-warning" onclick="fillMarksForm('{{ row.id }}', '{{ row.student_pk }}', '{{ row.subject }}', '{{ row.marks }}')">Edit</button>
+                    <form method="post" action="{{ url_for('delete_mark', mark_id=row.id) }}" onsubmit="return confirm('Delete this mark entry?')">
+                        <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-center text-muted">No marks records available.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function fillMarksForm(id, studentId, subject, marks) {
+    document.getElementById('mark_id').value = id;
+    document.getElementById('student_id').value = studentId;
+    document.getElementById('subject').value = subject;
+    document.getElementById('marks').value = marks;
+}
+</script>
+{% endblock %}

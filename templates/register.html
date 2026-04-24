@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="mb-3 text-center">Register</h3>
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Role</label>
+                        <select name="role" class="form-select" required>
+                            <option value="student">Student</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <hr>
+                    <p class="small text-muted mb-2">Optional student details (used when role is Student)</p>
+                    <div class="row g-2">
+                        <div class="col-md-6"><input class="form-control" type="text" name="student_id" placeholder="Student ID"></div>
+                        <div class="col-md-6"><input class="form-control" type="text" name="name" placeholder="Full Name"></div>
+                        <div class="col-md-6"><input class="form-control" type="number" name="age" placeholder="Age"></div>
+                        <div class="col-md-6"><input class="form-control" type="text" name="department" placeholder="Department"></div>
+                        <div class="col-md-6"><input class="form-control" type="email" name="email" placeholder="Email"></div>
+                        <div class="col-md-6"><input class="form-control" type="text" name="phone" placeholder="Phone"></div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 mt-3">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

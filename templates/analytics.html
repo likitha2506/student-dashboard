@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-3">Dashboard Analytics</h2>
+<div class="row g-4">
+    <div class="col-lg-6"><div class="card shadow-sm p-3"><h5>Marks Performance</h5><canvas id="marksChart"></canvas></div></div>
+    <div class="col-lg-6"><div class="card shadow-sm p-3"><h5>Attendance Percentage</h5><canvas id="attendanceChart"></canvas></div></div>
+    <div class="col-lg-6"><div class="card shadow-sm p-3"><h5>GPA Trend</h5><canvas id="gpaChart"></canvas></div></div>
+    <div class="col-lg-6"><div class="card shadow-sm p-3"><h5>Department Comparison</h5><canvas id="deptChart"></canvas></div></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-3">{{ 'Edit Student' if student else 'Add Student' }}</h2>
+<form method="post" class="card shadow-sm p-4">
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label class="form-label">Student ID</label>
+            <input type="text" name="student_id" class="form-control" value="{{ student.student_id if student else '' }}" required>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Name</label>
+            <input type="text" name="name" class="form-control" value="{{ student.name if student else '' }}" required>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Age</label>
+            <input type="number" name="age" class="form-control" value="{{ student.age if student else '' }}">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Department</label>
+            <input type="text" name="department" class="form-control" value="{{ student.department if student else '' }}">
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Phone</label>
+            <input type="text" name="phone" class="form-control" value="{{ student.phone if student else '' }}">
+        </div>
+        <div class="col-md-12">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ student.email if student else '' }}">
+        </div>
+    </div>
+    <div class="mt-3 d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <a class="btn btn-secondary" href="{{ url_for('students') }}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-3">Admin Dashboard</h2>
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card stat-card shadow-sm">
+            <div class="card-body">
+                <h6>Total Students</h6>
+                <h3>{{ student_count }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card shadow-sm">
+            <div class="card-body">
+                <h6>Attendance Entries</h6>
+                <h3>{{ attendance_count }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stat-card shadow-sm">
+            <div class="card-body">
+                <h6>Marks Entries</h6>
+                <h3>{{ marks_count }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-warning-subtle">Notifications: Attendance Below 75%</div>
+            <ul class="list-group list-group-flush">
+                {% for item in notifications.low_attendance %}
+                <li class="list-group-item">{{ item.name }} ({{ item.student_id }}) - {{ item.attendance_percent }}%</li>
+                {% else %}
+                <li class="list-group-item text-muted">No low attendance alerts.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-danger-subtle">Notifications: Low Marks</div>
+            <ul class="list-group list-group-flush">
+                {% for item in notifications.low_marks %}
+                <li class="list-group-item">{{ item.name }} ({{ item.student_id }}) - Avg {{ item.avg_marks }}</li>
+                {% else %}
+                <li class="list-group-item text-muted">No low marks alerts.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header bg-info-subtle">Upcoming Exams</div>
+    <ul class="list-group list-group-flush">
+        {% for exam in notifications.upcoming_exams %}
+        <li class="list-group-item">{{ exam.subject }} - {{ exam.date }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

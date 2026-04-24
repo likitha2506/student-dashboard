@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-3">Student Dashboard</h2>
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4>{{ student.name }} ({{ student.student_id }})</h4>
+                <p class="mb-1"><strong>Department:</strong> {{ student.department or 'N/A' }}</p>
+                <p class="mb-1"><strong>Email:</strong> {{ student.email or 'N/A' }}</p>
+                <p class="mb-1"><strong>Phone:</strong> {{ student.phone or 'N/A' }}</p>
+                <a href="{{ url_for('profile') }}" class="btn btn-outline-primary mt-2">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5>GPA / Performance Prediction</h5>
+                <p><strong>Attendance:</strong> {{ metrics.attendance_percentage }}%</p>
+                <p><strong>Average Marks:</strong> {{ metrics.avg_marks }}</p>
+                <p><strong>Predicted GPA:</strong> {{ metrics.predicted_gpa }}</p>
+                <p><strong>Status:</strong> <span class="badge {{ 'text-bg-danger' if metrics.status == 'At Risk' else 'text-bg-success' }}">{{ metrics.status }}</span></p>
+                <p><strong>Suggestion:</strong> {{ metrics.suggestion }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

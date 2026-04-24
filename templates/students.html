@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Student Records</h2>
+    <a href="{{ url_for('add_student') }}" class="btn btn-primary">Add New Student</a>
+</div>
+
+<form class="row g-2 mb-3" method="get">
+    <div class="col-md-3"><input type="text" name="search" class="form-control" placeholder="Search by name or ID" value="{{ search }}"></div>
+    <div class="col-md-2">
+        <select name="department" class="form-select">
+            <option value="">All Departments</option>
+            {% for dep in departments %}
+            <option value="{{ dep.department }}" {{ 'selected' if dep.department == department else '' }}>{{ dep.department }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2"><input type="number" step="0.01" name="gpa_min" class="form-control" placeholder="Min GPA" value="{{ gpa_min }}"></div>
+    <div class="col-md-2"><input type="number" step="0.01" name="gpa_max" class="form-control" placeholder="Max GPA" value="{{ gpa_max }}"></div>
+    <div class="col-md-3 d-flex gap-2">
+        <button class="btn btn-success" type="submit">Search/Filter</button>
+        <a href="{{ url_for('export_students_excel') }}" class="btn btn-outline-secondary">Export Excel</a>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Department</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>GPA</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student.student_id }}</td>
+                <td>{{ student.name }}</td>
+                <td>{{ student.age }}</td>
+                <td>{{ student.department }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.phone }}</td>
+                <td>{{ student.gpa or 0 }}</td>
+                <td class="d-flex gap-1">
+                    <a class="btn btn-sm btn-warning" href="{{ url_for('edit_student', student_id=student.id) }}">Edit</a>
+                    <form method="post" action="{{ url_for('delete_student', student_id=student.id) }}" onsubmit="return confirm('Delete this student?')">
+                        <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="8" class="text-center text-muted">No students found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

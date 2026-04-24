@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-3">Attendance Summary</h2>
+<div class="mb-3 d-flex gap-2">
+    <a class="btn btn-outline-danger" href="{{ url_for('export_attendance_pdf') }}">Export PDF</a>
+</div>
+<div class="table-responsive mb-4">
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Total Classes</th>
+                <th>Present</th>
+                <th>Percentage</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in summary %}
+            <tr>
+                <td>{{ row.student_id }}</td>
+                <td>{{ row.name }}</td>
+                <td>{{ row.total_classes or 0 }}</td>
+                <td>{{ row.presents or 0 }}</td>
+                <td>{{ row.percent or 0 }}%</td>
+                <td>{% if (row.percent or 0) < 75 %}<span class="text-danger fw-semibold">Warning</span>{% else %}<span class="text-success">Good</span>{% endif %}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6" class="text-center text-muted">No attendance data yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card shadow-sm p-3">
+    <h5>Monthly Report</h5>
+    <form method="get" class="row g-2 align-items-end mb-3">
+        <div class="col-md-3">
+            <label class="form-label">Month</label>
+            <input type="month" name="month" class="form-control" value="{{ month or '' }}">
+        </div>
+        <div class="col-md-3"><button class="btn btn-primary" type="submit">Generate</button></div>
+    </form>
+    {% if month %}
+    <h6>{{ month|month_name }}</h6>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped">
+            <thead><tr><th>Student ID</th><th>Name</th><th>Present</th><th>Total</th></tr></thead>
+            <tbody>
+                {% for row in monthly_rows %}
+                <tr><td>{{ row.student_id }}</td><td>{{ row.name }}</td><td>{{ row.presents or 0 }}</td><td>{{ row.total or 0 }}</td></tr>
+                {% else %}
+                <tr><td colspan="4" class="text-center text-muted">No monthly records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 class="mb-3">Profile</h2>
+{% if student %}
+<div class="card profile-card shadow-sm">
+    <div class="card-body">
+        <div class="row g-4 align-items-center">
+            <div class="col-md-4 text-center">
+                {% if student.profile_photo %}
+                <img class="profile-photo" src="{{ url_for('static', filename='images/' ~ student.profile_photo) }}" alt="Profile Photo">
+                {% else %}
+                <div class="profile-placeholder">No Photo</div>
+                {% endif %}
+                <p class="mt-2 mb-0">{{ student.student_id }}</p>
+            </div>
+            <div class="col-md-8">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row g-2">
+                        <div class="col-md-6"><label class="form-label">Name</label><input class="form-control" type="text" name="name" value="{{ student.name or '' }}"></div>
+                        <div class="col-md-6"><label class="form-label">Age</label><input class="form-control" type="number" name="age" value="{{ student.age or '' }}"></div>
+                        <div class="col-md-6"><label class="form-label">Department</label><input class="form-control" type="text" name="department" value="{{ student.department or '' }}"></div>
+                        <div class="col-md-6"><label class="form-label">Phone</label><input class="form-control" type="text" name="phone" value="{{ student.phone or '' }}"></div>
+                        <div class="col-md-6"><label class="form-label">Email</label><input class="form-control" type="email" name="email" value="{{ student.email or '' }}"></div>
+                        <div class="col-md-6"><label class="form-label">Profile Photo</label><input class="form-control" type="file" name="profile_photo" accept=".jpg,.jpeg,.png,.gif"></div>
+                    </div>
+                    <button class="btn btn-primary mt-3" type="submit">Update Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">Admin users do not have a student profile card.</div>
+{% endif %}
+{% endblock %}

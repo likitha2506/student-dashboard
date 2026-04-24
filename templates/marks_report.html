@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Marks Report</h2>
+    {% if session.get('role') == 'admin' %}
+    <a class="btn btn-outline-danger" href="{{ url_for('export_marks_pdf') }}">Export PDF</a>
+    {% endif %}
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5>Semester Average</h5>
+                <p class="display-6 mb-0">{{ semester_avg }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5>Subject-wise Performance</h5>
+                <ul class="mb-0">
+                    {% for row in averages %}
+                    <li>{{ row.subject }}: {{ row.avg_marks }}</li>
+                    {% else %}
+                    <li class="text-muted">No subject data yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% for key, rows in grouped.items() %}
+<div class="card shadow-sm mb-3">
+    <div class="card-header">{{ key }}</div>
+    <div class="table-responsive">
+        <table class="table table-sm mb-0">
+            <thead><tr><th>Subject</th><th>Marks</th></tr></thead>
+            <tbody>
+                {% for row in rows %}
+                <tr><td>{{ row.subject }}</td><td>{{ row.marks }}</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
